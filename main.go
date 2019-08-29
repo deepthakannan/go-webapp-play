@@ -12,9 +12,7 @@ func main() {
 	router := gin.New()
 	router.Use(gin.Logger())
 	router.Use(gin.Recovery())
-	router.Use(func(context *gin.Context) {
-		println(context.Request.Method + " " + context.Request.RequestURI)
-	})
+	router.Use(ReqResLoggerMiddleware)
 
 	hello := router.Group("hellogin")
 	// per group middleware! in this case we use the custom created

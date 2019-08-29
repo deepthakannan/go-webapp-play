@@ -19,5 +19,6 @@ func LoginHandler(context *gin.Context) {
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{"status": login.User + ", you are logged in " + login.Zone})
+	// gin.H -> H is a shortcut for map[string]interface{} -> Dictionary<string, object>
+	context.JSON(http.StatusOK, gin.H{"status": login.User + ", you are logged in " + login.Zone}) 
 }
