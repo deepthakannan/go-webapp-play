@@ -25,9 +25,11 @@ func main() {
 
 	// note: scoping for readablity?
 	{
-		hello.POST("/login", func(context *gin.Context) {
+		hello.POST("/logmein", func(context *gin.Context) {
 			panic("login not working...try again after some time")
 		})
+
+		hello.POST("/login", handlers.LoginHandler)
 	}
 
 	hello.GET("/ping", handlers.PingPongHandler)
