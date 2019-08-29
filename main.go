@@ -2,6 +2,7 @@ package main
 
 import (
 	"net/http"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,6 +10,11 @@ import (
 func main() {
 	// Default With the Logger and Recovery middleware already attached
 	// router := gin.Default()
+
+	bodyMiddleware := func(context *gin.Context) {
+		println("ContentLength:" + strconv.FormatInt(context.Request.ContentLength, 10))
+		context.Next()
+	}
 
 	router := gin.New()
 	router.Use(gin.Logger())
@@ -18,6 +24,19 @@ func main() {
 	})
 
 	hello := router.Group("hellogin")
+	// per group middleware! in this case we use the custom created
+	// AuthRequired() middleware just in the "authorized" group.
+	hello.Use(bodyMiddleware)
+
+	println(hello)
+
+	// note: scoping for readablity?
+	{
+		hello.POST("/login", func(context *gin.Context) {
+			panic("login not working...try again after some time")
+		})
+	}
+
 	hello.GET("/ping", func(context *gin.Context) {
 		context.JSON(200, gin.H{
 			"message": "pong",
